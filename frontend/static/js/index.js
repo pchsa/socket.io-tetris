@@ -2,4 +2,5 @@ const socket = io();
 
 socket.on('message', message => {
     console.log(message);
-}); 123
+    console.log("hello");
+});
