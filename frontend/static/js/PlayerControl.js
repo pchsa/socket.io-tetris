@@ -198,6 +198,12 @@ export class PlayerControl {
             this.setPieceFallLoop();
 
             this.socket.emit('placePiece', this.game.boardArray);
+            this.socket.emit('movePiece', {
+                id: this.user.id,
+                tiles: this.game.getCurrentPiece().getTiles(),
+                symbol: this.user.symbol
+            });
+
             this.display.updatePreview(this.game);
 
             this.updateDisplayBoard();
@@ -242,6 +248,11 @@ export class PlayerControl {
             this.setPieceFallLoop();
 
             this.socket.emit('placePiece', this.game.boardArray);
+            this.socket.emit('movePiece', {
+                id: this.user.id,
+                tiles: this.game.getCurrentPiece().getTiles(),
+                symbol: this.user.symbol
+            });
             this.display.updatePreview(this.game);
 
             this.updateDisplayBoard();
