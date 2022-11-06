@@ -95,6 +95,7 @@ export class PlayerControl {
                     break;
                 case settings.HARD_DROP:
                     this.setMaxPieceTimer();
+                    this.setStillPieceTimer();
                     if (this.game.placePiece(this.user.symbol)) {
                         this.setPieceFallLoop();
                         document.getElementById('user').innerHTML = `
@@ -182,6 +183,7 @@ export class PlayerControl {
                 return;
             }
 
+            this.setStillPieceTimer();
 
             if (this.game.placePiece(this.user.symbol)) {
                 document.getElementById('user').innerHTML = `
@@ -234,6 +236,8 @@ export class PlayerControl {
                     totalLines:this.game.linesCleared
                 })
             }
+            this.setStillPieceTimer();
+
 
             this.setPieceFallLoop();
 
