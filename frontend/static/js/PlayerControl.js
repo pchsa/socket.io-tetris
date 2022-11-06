@@ -96,7 +96,10 @@ export class PlayerControl {
                 case settings.HARD_DROP:
                     this.setMaxPieceTimer();
                     this.setStillPieceTimer();
-                    if (this.game.placePiece(this.user.symbol)) {
+                    let pieceInformation = this.game.placePiece(this.user.symbol);
+
+
+                    if (pieceInformation.linesCleared) {
                         this.setPieceFallLoop();
                         document.getElementById('user').innerHTML = `
                             <div>${this.user.name} (You)</div><div>${this.game.linesCleared}</div>`
@@ -106,7 +109,10 @@ export class PlayerControl {
                             totalLines:this.game.linesCleared
                         })
                     }
-                    this.socket.emit('placePiece', this.game.boardArray);
+                    this.socket.emit('placePiece', {
+                        boardArray:this.game.boardArray,
+                        tiles:pieceInformation.tiles,
+                    });
                     this.display.updatePreview(this.game);
                     break   
                 case settings.ROTATE_LEFT:
@@ -184,8 +190,9 @@ export class PlayerControl {
             }
 
             this.setStillPieceTimer();
+            let pieceInformation = this.game.placePiece(this.user.symbol);
 
-            if (this.game.placePiece(this.user.symbol)) {
+            if (pieceInformation.linesCleared) {
                 document.getElementById('user').innerHTML = `
                     <div>${this.user.name} (You)</div><div>${this.game.linesCleared}</div>`
                 ;
@@ -197,7 +204,12 @@ export class PlayerControl {
 
             this.setPieceFallLoop();
 
-            this.socket.emit('placePiece', this.game.boardArray);
+            this.socket.emit('placePiece', {
+                boardArray:this.game.boardArray,
+                tiles:pieceInformation.tiles
+            });
+
+
             this.socket.emit('movePiece', {
                 id: this.user.id,
                 tiles: this.game.getCurrentPiece().getTiles(),
@@ -232,8 +244,9 @@ export class PlayerControl {
             if (!this.game.atFinalPosition()) {
                 return;
             }
+            let pieceInformation = this.game.placePiece(this.user.symbol);
 
-            if (this.game.placePiece(this.user.symbol)) {
+            if (pieceInformation.linesCleared) {
                 document.getElementById('user').innerHTML = `
                     <div>${this.user.name} (You)</div><div>${this.game.linesCleared}</div>`
                 ;
@@ -247,7 +260,11 @@ export class PlayerControl {
 
             this.setPieceFallLoop();
 
-            this.socket.emit('placePiece', this.game.boardArray);
+            this.socket.emit('placePiece', {
+                boardArray:this.game.boardArray,
+                tiles:pieceInformation.tiles
+            });
+
             this.socket.emit('movePiece', {
                 id: this.user.id,
                 tiles: this.game.getCurrentPiece().getTiles(),
@@ -342,7 +359,6 @@ export class PlayerControl {
                 this.updateDisplayBoard();
             }
 
-            console.log(this.game.atFinalPosition());
         }, 1000)
     }
 

@@ -79,9 +79,7 @@ socket.once('setupUser', setupDetails => {
 
     if (game.gameOver) {
         document.getElementById('boardOverlay').innerHTML = `${setupDetails.board.latestLoser} lost the game :C`
-        console.log(loading.style.visibility)
         loading.style.visibility = 'visible';
-        console.log(loading.style.visibility)
     } else {
         // emit your position
         socket.emit('movePiece', {
@@ -113,12 +111,9 @@ socket.on('boardUpdate', boardArray => {
     // check if game over
     if (game.gameOver) {
         document.getElementById('boardOverlay').innerHTML = `${user.name} lost the game :C`
-        console.log(loading.style.visibility)
 
         loading.style.visibility = 'visible';
-        console.log(loading.style.visibility)
 
-        console.log('rip');
         display.dimBoard();
         socket.emit('playerLost', user.name);
     }
@@ -129,7 +124,6 @@ socket.on('boardUpdate', boardArray => {
     ];
 
     display.updateBoard(game, pieces);
-    console.log('received board Update')
 
 });
 
@@ -146,7 +140,6 @@ socket.on('pieceUpdate', userPiece => {
     ];
 
     display.updateBoard(game, pieces);
-    console.log('received piece Update')
 })
 
 socket.on('usersUpdate', users => {
@@ -171,22 +164,19 @@ socket.on('userDisconnect', id => {
 
     let pieces = [
         ...Object.values(otherPieces),
+
         ...game.getPieceDetails(user.symbol)
     ];
 
     display.updateBoard(game, pieces);
-    console.log('recevied disconnect');
 })
 
 socket.on('gameOver', name => {
     game.gameOver = true;
+    
     document.getElementById('boardOverlay').innerHTML = `${name} lost the game :C`;
-    console.log(loading.style.visibility)
 
     loading.style.visibility = 'visible';
-    console.log(loading.style.visibility)
-
-    console.log('rip');
     display.dimBoard();
 })
 

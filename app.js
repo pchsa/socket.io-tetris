@@ -3,13 +3,12 @@ import * as path from 'path'
 import { createServer } from 'http';
 import { Server } from "socket.io";
 import { Users } from "./utils/users.js";
-import { Board, generateEmptyBoard } from "./utils/board.js";
+import { Board } from "./utils/board.js";
 
-// console.log(generateSlug(2, { format:"lower" }))
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server)
+const io = new Server(server);
 
 // Set static folder
 app.use(express.static(path.join(path.resolve(), 'frontend')))
@@ -31,25 +30,28 @@ io.on('connection', socket => {
 
         currentUsers:users.users
     });
+    
 
     // let other users know user joined
     socket.broadcast.emit('usersUpdate', users.users);
 
-    socket.on('placePiece', boardArray => {
+    socket.on('placePiece', placeInformation => {
         if (globalBoard.gameOver) {
-            console.log('attempt to reject place piece');
-
             return;
         }
 
-        globalBoard.boardArray = boardArray;
-        socket.broadcast.emit('boardUpdate', boardArray);
+        let freeTiles = globalBoard.getFreeTiles(placeInformation.tiles);
+        globalBoard.setTiles(freeTiles, user.symbol);
+        globalBoard.clearLines();
+
+
+
+        // globalBoard.boardArray = placeInformation.boardArray;
+        io.emit('boardUpdate', globalBoard.boardArray);
     })
 
     socket.on('movePiece', userPiece => {
         if (globalBoard.gameOver) {
-            console.log('attempt to rejectc move piece');
-
             return;
         }
 
@@ -58,12 +60,13 @@ io.on('connection', socket => {
             symbol: userPiece.symbol
         };
 
+
+
         socket.broadcast.emit('pieceUpdate', userPiece);
     })
 
     socket.on('clearedLines', clearDetails => {
         if (globalBoard.gameOver) {
-            console.log('attempt to rejectc read lines');
             return;
         }
 
@@ -78,11 +81,11 @@ io.on('connection', socket => {
     socket.on('playerLost', name => {
         globalBoard.gameOver = true;
         globalBoard.latestLoser = name;
-        socket.broadcast.emit('gameOver', name);
+        io.emit('gameOver', name);
 
         setTimeout(() => {
             // initialise new board array
-            globalBoard.boardArray = generateEmptyBoard();
+            globalBoard.boardArray = globalBoard.generateEmptyBoard();
             globalBoard.piecePositions = {};
             globalBoard.gameOver = false;
 

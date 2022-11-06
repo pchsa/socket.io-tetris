@@ -2,10 +2,10 @@
   "name": "socketio",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon server"
+    "start": "node app",
+    "dev": "nodemon app"
   },
   "keywords": [],
   "author": "",

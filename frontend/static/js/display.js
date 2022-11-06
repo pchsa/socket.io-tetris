@@ -92,7 +92,6 @@ export class Display {
             4
         );
         this.tileCtx.fill();
-        console.log('hello dimmer')
     }
 
     drawPiece(pieceTiles, color) {

@@ -90,7 +90,10 @@ export class Game {
 
         this.canHold = true;
         this.piecesPlaced += 1;
-        return linesCleared
+        return {
+            tiles,
+            linesCleared,
+        }
     }
 
     clearLines() {
@@ -161,8 +164,6 @@ export class Game {
     }
 
     atFinalPosition() {
-        // console.log(this.getCurrentPiece().getFinalYPosition())
-        // console.log()
         return this.getCurrentPiece().getFinalYPosition() == this.getCurrentPiece().yPosition;
     }
 }
