@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'atetrisgame'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DD7D7B5FB56F48B09D9BDAFAF80FC649 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_67BF7F5C86C540FEB502EF3706ED3BE1 }}
           package: .
