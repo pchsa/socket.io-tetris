@@ -4,12 +4,64 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/style.css">
     <title>Document</title>
 </head>
 <body>
-    <h1>Hello World!</h1>
+    <h1>a tetris game</h1>
+
+
+    <div id="gameContainer">
+        <div class="boardAdjacent">
+            <div class="pieceContainer">
+                hold
+                <canvas width=118 height=118 id="holdCanvas"></canvas>
+            </div>
+
+            <div id="users">
+                <div class="userBox" id="user"></div>
+
+                Playing:
+                <div id="otherUsers">
+                </div>
+            </div>
+        </div>
+
+        <div class="boardContainer">
+            <canvas width=500 height=500 id="boardCanvas"></canvas>
+            <span id="boardOverlay"></span>
+        </div>
+
+
+        <div class="boardAdjacent">
+            <div class="pieceContainer">
+                next
+                <canvas width=118 height=524 id="nextCanvas"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div id="settings">Settings</div>
+    <div id="settingsMenu">
+        <div class="row"><p>move left:</p><input id="moveLeft" type="text" onclick="this.value = ''" maxlength="1" value="ArrowLeft"></div>
+        <div class="row"><p>move right:</p><input id="moveRight" type="text" onclick="this.value = ''" maxlength="1" value="ArrowRight"></div>
+        <div class="row"><p>soft drop:</p><input id="softDrop" type="text" onclick="this.value = ''" maxlength="1" value="ArrowDown"></div>
+        <div class="row"><p>hard drop:</p><input id="hardDrop" type="text" onclick="this.value = ''" maxlength="1" value="Space"></div>
+        <div class="row"><p>rotate left:</p><input id="rotateLeft" type="text" onclick="this.value = ''" maxlength="1" value="KeyZ"></div>
+        <div class="row"><p>rotate right</p><input id="rotateRight" type="text" onclick="this.value = ''" maxlength="1" value="ArrowUp"></div>
+        <div class="row"><p>rotate 180:</p><input id="rotate180" type="text" onclick="this.value = ''" maxlength="1" value="KeyX"></div>
+        <div class="row"><p>hold:</p><input id="hold" type="text" onclick="this.value = ''" maxlength="1" value="KeyC"></div>
+        <div class="row"><p>das:</p><input id="das" type="text" onclick="this.value = ''" maxlength="3" value="133"></div>
+        <div class="row"><p>arr:</p><input id="arr" type="text" onclick="this.value = ''" maxlength="3" value="10"></div>
+    </div>
+
+    <div class="loading" id="loader">Loading</div>
+
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="static/js/index.js"></script>
+    <script type="module" src="static/js/index.js"></script>
 </body>
-</html>
+</html> 

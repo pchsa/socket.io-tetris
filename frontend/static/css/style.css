@@ -1,0 +1,228 @@
+* { 
+	box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+}
+
+
+body {
+    background-color: #3a2d2b;
+    /* background-color: #343b42; */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Gaegu', cursive;
+    font-size: 30px;
+    font-weight: 700;
+    min-height: 100%;
+    zoom: 80%;
+}
+
+h1 {
+    font-size: 35px;
+}
+
+#gameContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    /* background-color: red; */
+}
+
+.boardAdjacent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    position: relative;
+}
+
+.pieceContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+#users {
+    display: flex;
+
+    flex-wrap: nowrap;
+    white-space: nowrap;
+
+    flex-direction: column;
+    width: 260px;
+    height: 300px;
+
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    gap: 10px;
+    
+
+}
+
+#otherUsers {
+    display: flex;
+
+    flex-wrap: nowrap;
+    white-space: nowrap;
+
+    flex-direction: column;
+    
+
+    gap: 10px;
+    
+
+    overflow-y: auto;
+}
+
+.userBox {
+    flex-shrink: 0;
+    /* align-self: center; */
+    /* background-color: red; */
+    color: #3a2d2b;
+    width: 240px;
+    height: 50px;
+
+    border-radius: 15px;
+
+
+    display: flex;
+    justify-content: space-between;
+
+    padding: 0px 20px;
+    /* font-weight: 200; */
+    white-space: nowrap;
+    word-break: keep-all;
+}
+
+.userBox div {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+
+    white-space: nowrap;
+    word-break: keep-all;
+}
+
+/* custom scrollbar */
+::-webkit-scrollbar {
+    width: 16px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
+}
+
+#boardOverlay {
+    z-index: 1;
+    position: absolute;
+    height: 200px;
+    width: 300px;
+    left: 50%;
+    top: 50%;
+    margin-top: -100px;
+    margin-left: -150px;
+    text-align: center;
+}
+
+
+.loading {
+    font-size: 30px;
+    visibility: hidden;
+}
+  
+.loading:after {
+    content: "...";
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    animation: ellipsis-dot 1s infinite .3s;
+    animation-fill-mode: forwards;
+    width: 1.25em;
+}
+
+@keyframes ellipsis-dot {
+    25% {
+        content: "";
+    }
+    50% {
+        content: ".";
+    }
+    75% {
+        content: "..";
+    }
+    100% {
+        content: "...";
+    }
+}
+
+
+#settings {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  #settings:hover {
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  #settingsMenu {
+    position: absolute;
+    font-size: 25px;
+    top: 50px;
+    right: 10px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    visibility: hidden;
+  }
+  #settingsMenu .row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  #settingsMenu input {
+    font-size: 25px;
+  
+    width: 130px;
+    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.4);
+    font-family: "Gaegu", cursive;
+    font-weight: 600;
+    border: none;
+    border-radius: 3px;
+    caret-color: transparent;
+    text-align: center;
+  }
+
+  .prevent-select {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+  }
