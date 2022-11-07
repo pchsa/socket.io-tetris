@@ -207,13 +207,13 @@ export const COLORS = {
 
 // transparent version of colors
 export const PUBLIC_COLORS = {
-    T:'rgb(197, 148, 197, 0.5)',
-    I:'rgb(95, 179, 179, 0.5)',
-    J:'rgb(102, 153, 204, 0.5)',
-    L:'rgb(249, 145, 87, 0.5)',
-    S:'rgb(153, 199, 148, 0.5)',
-    Z:'rgb(236, 95, 103, 0.5)',
-    O:'rgb(250, 200, 99, 0.5)'
+    T:'rgb(197, 148, 197, 0.1)',
+    I:'rgb(95, 179, 179, 0.1)',
+    J:'rgb(102, 153, 204, 0.1)',
+    L:'rgb(249, 145, 87, 0.1)',
+    S:'rgb(153, 199, 148, 0.1)',
+    Z:'rgb(236, 95, 103, 0.1)',
+    O:'rgb(250, 200, 99, 0.1)'
 };
 
 // number of tiles rows on top not visible to player

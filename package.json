@@ -13,7 +13,8 @@
   "dependencies": {
     "express": "^4.18.2",
     "random-word-slugs": "^0.1.6",
-    "socket.io": "^4.5.3"
+    "socket.io": "^4.5.3",
+    "socketio": "github:pchsa/socket.io-tetris"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
