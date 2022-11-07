@@ -3,7 +3,10 @@ import { Piece } from "./piece.js"
 import { COLORS } from "./constants.js";
 
 
-
+/**
+ * 
+ * @returns empty board
+ */
 function generateEmptyBoard() {
     let array = [];
     for (let j = 0; j < 24; j++) {
@@ -17,6 +20,10 @@ function generateEmptyBoard() {
 }
 
 export class Game {
+    /**
+     * 
+     * @param {string[][]} boardArray board array of game
+     */
     constructor(boardArray) {
         this.boardArray = boardArray || generateEmptyBoard();
         this.shapeGenerator = new ShapeGenerator();
@@ -72,7 +79,8 @@ export class Game {
     }
 
     /**
-     * 
+     * Drop and lock the current game piece, clear full lines and update 
+     * number of lines cleared. Enable player to hold piece again.
      * @param {string} symbol 
      */
     placePiece(symbol) {
@@ -96,6 +104,10 @@ export class Game {
         }
     }
 
+    /**
+     * Clear full lines.
+     * @returns number of lines cleared
+     */
     clearLines() {
         let linesCleared = 0;
 
@@ -117,6 +129,9 @@ export class Game {
         return linesCleared;
     }
 
+    /**
+     * Hold a piece if the player has not held a peice this turn
+     */
     holdPiece() {
         if (!this.canHold) {
             return;
@@ -133,6 +148,11 @@ export class Game {
         this.canHold = false;
     }
 
+    /**
+     * Check if piece moved from initial position
+     * @param {*} initialPosition 
+     * @returns true if piece moved
+     */
     checkPieceMoved(initialPosition) {
         return (
             initialPosition.x != this.getCurrentPiece().xPosition ||
@@ -142,6 +162,11 @@ export class Game {
         );
     }
 
+    /**
+     * Get the piece tiles, color of actual piece and ghost piece as a list
+     * @param {string} userSymbol 
+     * @returns {{tiles, color}[]} list of {tiles, color} of actual piece and ghost piece
+     */
     getPieceDetails(userSymbol) {
         if (!userSymbol) {
             userSymbol = this.getCurrentPiece().piece;
@@ -154,6 +179,10 @@ export class Game {
         ]
     }
 
+    /**
+     * Returns the x, y, rotation, and piece (symbol) of current piece
+     * @returns {x, y, rotation, piece}
+     */
     getCurrentPosition() {
         return {
             x:this.getCurrentPiece().xPosition,
@@ -163,6 +192,10 @@ export class Game {
         }
     }
 
+    /**
+     * Check if piece is at final position (can no longer move down)
+     * @returns true if current piece at final position
+     */
     atFinalPosition() {
         return this.getCurrentPiece().getFinalYPosition() == this.getCurrentPiece().yPosition;
     }

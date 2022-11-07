@@ -7,8 +7,6 @@ import {
     PIECES
 } from './constants.js'
 
-import { Piece } from './piece.js'
-
 import { Game } from './game.js'
 
 // convert number of tiles to a canvas length
@@ -21,11 +19,8 @@ function getCanvasSize(size) {
  */
 export class Display {
 
-    /**
-     * 
-     * @param {Document} document 
-     */
-    constructor(document) {
+
+    constructor() {
         this.tileCanvas = document.getElementById('boardCanvas');
         this.tileCtx = this.tileCanvas.getContext('2d');
 
@@ -76,6 +71,9 @@ export class Display {
         ctx.fill();
     }
 
+    /**
+     * Clear the board canvas.
+     */
     clearBoard() {
         this.tileCtx.clearRect(0, 0, 
             this.tileCanvas.width, 
@@ -83,6 +81,9 @@ export class Display {
         );
     }
 
+    /**
+     * Overlay canvas with dim.
+     */
     dimBoard() {
         this.tileCtx.beginPath();
         this.tileCtx.fillStyle = 'rgba(0, 0, 0, 0.15)';
@@ -94,6 +95,11 @@ export class Display {
         this.tileCtx.fill();
     }
 
+    /**
+     * Draw a piece on the board
+     * @param {string[][]} pieceTiles tiles of piece
+     * @param {string} color color of piece
+     */
     drawPiece(pieceTiles, color) {
         pieceTiles.forEach(([x, y]) => {
             this.drawTile(color, x, y, this.tileCtx);
@@ -101,9 +107,9 @@ export class Display {
     }
 
     /**
-     * 
-     * @param {Game} game 
-     * @param {} otherPieces 
+     * Clear board, and draw updated board and any pieces
+     * @param {Game} game current game
+     * @param {{tiles, color}[]} otherPieces pieces to draw
      */
     updateBoard(game, pieces = []) {
         this.clearBoard();
@@ -121,7 +127,9 @@ export class Display {
         }
     }
 
-
+    /**
+     * Clear preview pieces canvas
+     */
     clearPreview() {
         this.previewCtx.clearRect(0, 0, 
             this.previewCanvas.width, 
@@ -130,7 +138,7 @@ export class Display {
     }
 
     /**
-     * 
+     * Update preview pieces canvas
      * @param {Game} game 
      */
     updatePreview(game) {
@@ -164,6 +172,9 @@ export class Display {
         })
     }
 
+    /**
+     * Clear hold piece canvas.
+     */
     clearHold() {
         this.holdCtx.clearRect(0, 0, 
             this.holdCanvas.width, 
@@ -172,7 +183,7 @@ export class Display {
     }
 
     /**
-     * 
+     * Update hold piece canvas.
      * @param {Game} game 
      */
     updateHold(game) {

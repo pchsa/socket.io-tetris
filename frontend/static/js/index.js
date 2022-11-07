@@ -28,18 +28,23 @@ let otherUsersBox = document.getElementById('otherUsers');
 
 const socket = io();
 
+/**
+ * Run when the user first connects to socket.
+ */
 socket.once('setupUser', setupDetails => {
+    // set user details
     user.id = setupDetails.userDetails.id;
     user.name = setupDetails.userDetails.name;
     user.symbol = setupDetails.userDetails.symbol;
 
+    // get other users
     otherUsers = setupDetails.currentUsers.filter(checkUser => checkUser.id != user.id);
     
-
+    // create new game
     game = new Game(setupDetails.board.boardArray);
     game.gameOver = setupDetails.board.gameOver;
 
-    
+    // get current piece positions of other users
     for (const [id, userPiece] of Object.entries(setupDetails.board.piecePositions)) {
         otherPieces[id] = {
             tiles: userPiece.tiles,
@@ -47,13 +52,13 @@ socket.once('setupUser', setupDetails => {
         }
     }
 
-    // set username box
+    // set current user div
     if (userBox != null) {
         userBox.innerHTML = `<div>${user.name} (You)</div><div>0</div>`;
         userBox.style.backgroundColor = constants.COLORS[user.symbol]
     }
 
-    // set other users
+    // set other user divs
     otherUsers.forEach(otherUser => {
         let otherUserDiv = document.createElement('div'); 
         otherUserDiv.classList.add('userBox');
@@ -65,23 +70,19 @@ socket.once('setupUser', setupDetails => {
         }
     });
 
-    display = new Display(document);
-
-    let pieces = [
-        ...Object.values(otherPieces),
-        ...game.getPieceDetails(user.symbol)
-    ];
-
-    display.updateBoard(game, pieces);
-    display.updatePreview(game);
+    display = new Display();
 
     playerControl = new PlayerControl(document, game, display, socket, otherPieces, user);
 
+    playerControl.updateDisplayBoard();
+    display.updatePreview(game);
+    
+    // if game is already over when user joins, display lose message
     if (game.gameOver) {
         document.getElementById('boardOverlay').innerHTML = `${setupDetails.board.latestLoser} lost the game :C`
         loading.style.visibility = 'visible';
     } else {
-        // emit your position
+        // emit your position (starting position)
         socket.emit('movePiece', {
             id: user.id,
             tiles: game.getCurrentPiece().getTiles(),
@@ -100,6 +101,7 @@ socket.on('boardUpdate', boardArray => {
 
     game.getCurrentPiece().liftToValidPosition();
 
+    // if piece was pushed up, emit new piece position
     if (game.checkPieceMoved(initialPosition)) {
         socket.emit('movePiece', {
             id: user.id,
@@ -108,7 +110,7 @@ socket.on('boardUpdate', boardArray => {
         });
     }
     
-    // check if game over
+    // check if game over due to piece being pushed up
     if (game.gameOver) {
         document.getElementById('boardOverlay').innerHTML = `${user.name} lost the game :C`
 
@@ -118,28 +120,17 @@ socket.on('boardUpdate', boardArray => {
         socket.emit('playerLost', user.name);
     }
 
-    let pieces = [
-        ...Object.values(otherPieces),
-        ...game.getPieceDetails(user.symbol)
-    ];
-
-    display.updateBoard(game, pieces);
-
+    playerControl.updateDisplayBoard();
 });
 
 socket.on('pieceUpdate', userPiece => {
+    // update position of piece
     otherPieces[userPiece.id] = {
         tiles: userPiece.tiles,
         color: constants.PUBLIC_COLORS[userPiece.symbol] 
     }
 
-    
-    let pieces = [
-        ...Object.values(otherPieces),
-        ...game.getPieceDetails(user.symbol)
-    ];
-
-    display.updateBoard(game, pieces);
+    playerControl.updateDisplayBoard();
 })
 
 socket.on('usersUpdate', users => {
@@ -162,13 +153,9 @@ socket.on('usersUpdate', users => {
 socket.on('userDisconnect', id => {
     delete otherPieces[id];
 
-    let pieces = [
-        ...Object.values(otherPieces),
+    // otherUsers array is updated serverside
 
-        ...game.getPieceDetails(user.symbol)
-    ];
-
-    display.updateBoard(game, pieces);
+    playerControl.updateDisplayBoard();
 })
 
 socket.on('gameOver', name => {
@@ -191,11 +178,7 @@ socket.on('startGame', board => {
     game.getCurrentPiece().resetPosition();
 
 
-    let pieces = [
-        ...game.getPieceDetails(user.symbol)
-    ];
-
-    display.updateBoard(game, pieces);
+    playerControl.updateDisplayBoard();
     display.updatePreview(game);
 
     playerControl.restartGameTimers();

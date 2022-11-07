@@ -7,7 +7,6 @@ let loading = document.getElementById('loader');
 
 
 export class PlayerControl {
-
     /**
      * 
      * @param {Document} document 
@@ -33,8 +32,6 @@ export class PlayerControl {
 
         this.maxPieceTimer = null;
         this.setMaxPieceTimer();
-
-
 
         this.stillPieceTimer = null;
 
@@ -181,6 +178,9 @@ export class PlayerControl {
         })
     }
 
+    /**
+     * Set max piece timer, After 10 secs, the current piece is placed no matter what
+     */
     setMaxPieceTimer() {
         clearInterval(this.maxPieceTimer);
 
@@ -232,6 +232,12 @@ export class PlayerControl {
         }, 10000)
     }
 
+    /**
+     * Set still piece timer. 
+     * If current piece is at final position (cannot move down any further) start timer
+     * If after 0.5 secs, the piece is still at final position, place piece.
+     * The piece placement can be deplayed by moving, rotating or dropping piece in any way.
+     */
     setStillPieceTimer() {
         clearTimeout(this.stillPieceTimer);
 
@@ -286,13 +292,9 @@ export class PlayerControl {
         }, 500);
     }
 
-    setMovingPieceTimer() {
-
-    }
-
 
     /**
-     * This is a horribly coded function :C
+     * Deal with settings changes
      * @param {KeyboardEvent} event 
      */
     handleSettingsInput(event) {
@@ -328,6 +330,9 @@ export class PlayerControl {
         }
     }
 
+    /**
+     * Drop the piece every second.
+     */
     setPieceFallLoop() {
         clearInterval(this.pieceFallLoop);
 
@@ -362,6 +367,10 @@ export class PlayerControl {
         }, 1000)
     }
 
+    /**
+     * Set delay before starting horizontal shift loop
+     * @param {string} direction 
+     */
     setHorizontalShiftDelay(direction) {
         this.clearHorizontalShiftTimers();
 
@@ -375,6 +384,10 @@ export class PlayerControl {
         }, settings.DAS);
     }
 
+    /**
+     * Shift piece towards direction every settings.ARR milliseconds.
+     * @param {string} direction 
+     */
     setHorizontalShiftLoop(direction) {
         this.horizontalShiftLoop = setInterval(() => {
             if (this.game.gameOver) {
@@ -403,19 +416,26 @@ export class PlayerControl {
         }, settings.ARR);
     }
 
+    /**
+     * Restart all game timers
+     */
     restartGameTimers() {
         // restart loops and what not;
         this.setPieceFallLoop();
         this.setMaxPieceTimer();
     }
 
+    /**
+     * Clear any horizonal shift delay or loop
+     */
     clearHorizontalShiftTimers() {
         clearTimeout(this.horizontalShiftDelay);
         clearTimeout(this.horizontalShiftLoop);
     }
 
-    
-
+    /**
+     * Update current board display.
+     */
     updateDisplayBoard() {
         let pieces = [
             ...Object.values(this.otherPieces),

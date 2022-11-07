@@ -5,6 +5,7 @@ export const DIRECTIONS = {
     RIGHT: [1, 0]
 }
 
+// all piece states
 const TPIECE = {
     0: [
         [0, 1, 0],
@@ -152,6 +153,7 @@ export const PIECES = {
     O:OPIECE
 }
 
+// piece rotation kicks
 export const STANDARD_KICK_TABLE = {
     '01':[[ 0, 0], [-1, 0], [-1,+1], [ 0,-2], [-1,-2]],
     '10':[[ 0, 0], [+1, 0], [+1,-1], [ 0,+2], [+1,+2]],
@@ -181,13 +183,15 @@ export const ROTATE_180_KICK_TABLE = {
     '31':[[ 0, 0],[-1, 0]],
 }
 
-
 // size of square in px
 export const SQUARE_SIZE = 27;
+
 // radius of square rounded corner in px
 export const SQUARE_ROUND = 2;
+
 // size of margin in px
 export const MARGIN = 2;
+
 // colors for each piece
 export const COLORS = {
     T:'rgb(197, 148, 197)',
@@ -201,6 +205,7 @@ export const COLORS = {
     G:'rgb(255, 255, 255, 0.1)' // GHOST PIECE
 };
 
+// transparent version of colors
 export const PUBLIC_COLORS = {
     T:'rgb(197, 148, 197, 0.5)',
     I:'rgb(95, 179, 179, 0.5)',
@@ -210,7 +215,6 @@ export const PUBLIC_COLORS = {
     Z:'rgb(236, 95, 103, 0.5)',
     O:'rgb(250, 200, 99, 0.5)'
 };
-
 
 // number of tiles rows on top not visible to player
 export const HIDDEN_TILE_ROWS = 3;

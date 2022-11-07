@@ -166,6 +166,9 @@ export class Piece {
         }
     }
 
+    /**
+     * Attempt to rotate a piece 180 degrees.
+     */
     rotate180() {
         if (this.piece == 'O') {
             return;
@@ -235,10 +238,7 @@ export class Piece {
     }
     
     /**
-     * Shift piece upwards until valid position found, if no valid position is 
-     * found (shift up results in out of bounds) return null
-     * 
-     * 
+     * Shift piece upwards until valid position found (or no piece out of bounds)
      */
     liftToValidPosition() {
         while (
@@ -253,10 +253,16 @@ export class Piece {
         }
     }
 
+    /**
+     * Check if piece out of bounds
+     */
     checkFatalPosition() {
         return this.yPosition <= 1;
     }
 
+    /**
+     * Reset position of piece to starting position.
+     */
     resetPosition() {
         this.xPosition = Math.floor(this.game.getWidth()/2) - 2;
         this.yPosition = HIDDEN_TILE_ROWS;

@@ -40,14 +40,20 @@ io.on('connection', socket => {
             return;
         }
 
+        // get free tiles on server board 
         let freeTiles = globalBoard.getFreeTiles(placeInformation.tiles);
         globalBoard.setTiles(freeTiles, user.symbol);
         globalBoard.clearLines();
 
 
+        if (globalBoard.boardArray == placeInformation.boardArray) {
+            // piece was not shifted up, no need to emit to this user
+            socket.broadcast('boardUpdate', globalBoard.boardArray);
+        } else {
+            // send new board array as piece was shifted up
+            io.emit('boardUpdate', globalBoard.boardArray);
 
-        // globalBoard.boardArray = placeInformation.boardArray;
-        io.emit('boardUpdate', globalBoard.boardArray);
+        }
     })
 
     socket.on('movePiece', userPiece => {
