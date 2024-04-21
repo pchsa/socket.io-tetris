@@ -1,6 +1,6 @@
 # socket.io tetris
 
-[Visit the website here](https://atetrisgame.azurewebsites.net/)
+[Visit the website here](https://atetrisgame.onrender.com/)
 
 Multiple players can play on the same board.
 
