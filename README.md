@@ -1,6 +1,6 @@
 # socket.io tetris
 
-[Visit the website here](https://atetrisgame.onrender.com/) Hosted on render.
+[Visit the website here](https://atetrisgame.onrender.com/) Hosted on render (takes ~30 secs for render server to wake up).
 
 Multiple players can play on the same board.
 
